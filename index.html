@@ -157,10 +157,11 @@
     <!-- Supabase JavaScript Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- 환경 변수 설정 (Vercel에서 자동 주입) -->
+    <!-- 환경 변수 설정 -->
     <script>
-        window.SUPABASE_URL = '%%SUPABASE_URL%%';
-        window.SUPABASE_ANON_KEY = '%%SUPABASE_ANON_KEY%%';
+        // Vercel 환경 변수에서 가져오기
+        window.SUPABASE_URL = 'https://lrmgwowakhgccvbubqqz.supabase.co';
+        window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxybWd3b3dha2hnY2N2YnVicXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NzA1NDAsImV4cCI6MjA3NjE0NjU0MH0.InRMiwzJKnbv_vc47Sa4nXgxQg6PDA_QE8oNFYeVd5g';
     </script>
 
     <script src="supabase-client.js"></script>
