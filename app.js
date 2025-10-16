@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 결과 표시
     async function displayResults(analysis) {
-        const { saju, elements, strongElement, weakElements, todayFortune, dayMaster } = analysis;
+        const { saju, elements, strongElement, weakElements, todayFortune, dayMaster,
+                yinYangAnalysis, tenGodsAnalysis, usefulGod, personality } = analysis;
 
         // 사주팔자 표시
         document.getElementById('yearStem').textContent = saju.year.stem;
@@ -86,10 +87,56 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('todayRelation').textContent = todayFortune.relation;
         document.getElementById('fortuneSummary').textContent = todayFortune.analysis;
 
+        // 음양 분석 표시
+        if (yinYangAnalysis) {
+            document.getElementById('yangCount').textContent = yinYangAnalysis.yangCount;
+            document.getElementById('yinCount').textContent = yinYangAnalysis.yinCount;
+            document.getElementById('yinYangBalance').textContent = yinYangAnalysis.balance;
+            document.getElementById('yinYangInterpretation').textContent = yinYangAnalysis.interpretation;
+        }
+
+        // 성격 분석 표시
+        if (personality) {
+            document.getElementById('personalitySummary').textContent = personality.summary;
+        }
+
+        // 십성 분석 표시
+        if (tenGodsAnalysis) {
+            displayTenGods(tenGodsAnalysis);
+        }
+
+        // 용신 분석 표시
+        if (usefulGod) {
+            document.getElementById('usefulGod').textContent = usefulGod.usefulGod;
+            document.getElementById('usefulGodInterpretation').textContent = usefulGod.interpretation;
+
+            const rec = usefulGod.recommendations;
+            document.getElementById('luckyColors').textContent = rec.colors.join(', ');
+            document.getElementById('luckyDirections').textContent = rec.directions.join(', ');
+            document.getElementById('luckyNumbers').textContent = rec.numbers.join(', ');
+            document.getElementById('suitableCareers').textContent = rec.careers.join(', ');
+        }
+
         // Supabase에 결과 저장 (선택사항)
         if (typeof saveSajuReading === 'function') {
             await saveSajuReading(saju.birthInfo, analysis);
         }
+    }
+
+    // 십성 표시
+    function displayTenGods(tenGodsAnalysis) {
+        const container = document.getElementById('tenGodsContent');
+        container.innerHTML = '';
+
+        tenGodsAnalysis.forEach(item => {
+            const tenGodDiv = document.createElement('div');
+            tenGodDiv.className = 'tengod-item info-card';
+            tenGodDiv.innerHTML = `
+                <p><strong>${item.position}:</strong> ${item.stem} - <span class="tengod-name">${item.tenGod}</span></p>
+                <p class="tengod-interpretation">${item.interpretation}</p>
+            `;
+            container.appendChild(tenGodDiv);
+        });
     }
 
     // 오행 차트 표시

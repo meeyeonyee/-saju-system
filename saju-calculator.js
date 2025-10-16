@@ -224,16 +224,222 @@ class SajuCalculator {
     return summaries[relation] || '평범한 하루가 될 것입니다.';
   }
 
-  // 사주 전체 분석
+  // 음양 분석
+  analyzeYinYang(saju) {
+    const pillars = [saju.year, saju.month, saju.day, saju.hour];
+    let yangCount = 0;
+    let yinCount = 0;
+
+    pillars.forEach(pillar => {
+      if (this.yinYang[pillar.stem] === '양') yangCount++;
+      else yinCount++;
+      if (this.yinYang[pillar.branch] === '양') yangCount++;
+      else yinCount++;
+    });
+
+    const balance = yangCount > yinCount ? '양' : yinCount > yangCount ? '음' : '균형';
+    const interpretation = this.getYinYangInterpretation(balance, yangCount, yinCount);
+
+    return {
+      yangCount,
+      yinCount,
+      balance,
+      interpretation
+    };
+  }
+
+  // 음양 해석
+  getYinYangInterpretation(balance, yangCount, yinCount) {
+    if (balance === '균형') {
+      return '음양의 균형이 잘 잡혀 있어 조화로운 성격을 가지고 있습니다. 상황에 따라 유연하게 대처하는 능력이 뛰어납니다.';
+    } else if (balance === '양') {
+      return `양의 기운이 강합니다 (양: ${yangCount}, 음: ${yinCount}). 외향적이고 활동적이며 적극적인 성향이 있습니다. 리더십이 있지만 때로는 조급할 수 있으니 침착함이 필요합니다.`;
+    } else {
+      return `음의 기운이 강합니다 (양: ${yangCount}, 음: ${yinCount}). 내향적이고 사려 깊으며 신중한 성향이 있습니다. 통찰력이 뛰어나지만 때로는 적극성이 필요할 수 있습니다.`;
+    }
+  }
+
+  // 십성 분석
+  analyzeTenGods(saju) {
+    const dayStem = saju.day.stem;
+    const dayElement = this.elements[dayStem];
+    const dayYinYang = this.yinYang[dayStem];
+    const tenGodsAnalysis = [];
+
+    // 각 기둥의 천간과 지지 분석
+    const pillars = [
+      { name: '년간', stem: saju.year.stem },
+      { name: '월간', stem: saju.month.stem },
+      { name: '시간', stem: saju.hour.stem }
+    ];
+
+    pillars.forEach(pillar => {
+      const targetElement = this.elements[pillar.stem];
+      const targetYinYang = this.yinYang[pillar.stem];
+      const tenGod = this.getTenGod(dayElement, dayYinYang, targetElement, targetYinYang);
+
+      tenGodsAnalysis.push({
+        position: pillar.name,
+        stem: pillar.stem,
+        tenGod: tenGod,
+        interpretation: this.getTenGodInterpretation(tenGod)
+      });
+    });
+
+    return tenGodsAnalysis;
+  }
+
+  // 십성 결정
+  getTenGod(myElement, myYinYang, targetElement, targetYinYang) {
+    const relation = this.getElementRelation(myElement, targetElement);
+    const sameYinYang = myYinYang === targetYinYang;
+
+    if (myElement === targetElement) {
+      return sameYinYang ? '비견(比肩)' : '겁재(劫財)';
+    } else if (relation === '상생') {
+      // 내가 생하는 경우
+      return sameYinYang ? '식신(食神)' : '상관(傷官)';
+    } else if (relation === '상극') {
+      // 내가 극하는 경우
+      return sameYinYang ? '편재(偏財)' : '정재(正財)';
+    } else if (relation === '극당함') {
+      // 나를 극하는 경우
+      return sameYinYang ? '편관(偏官)' : '정관(正官)';
+    } else if (relation === '생조받음') {
+      // 나를 생하는 경우
+      return sameYinYang ? '편인(偏印)' : '정인(正印)';
+    }
+    return '미상';
+  }
+
+  // 십성 해석
+  getTenGodInterpretation(tenGod) {
+    const interpretations = {
+      '비견(比肩)': '독립심과 자존심이 강합니다. 형제, 친구, 동료와의 관계가 중요합니다.',
+      '겁재(劫財)': '경쟁심이 강하고 승부욕이 있습니다. 재물 관리에 신경 써야 합니다.',
+      '식신(食神)': '창의적이고 낙천적입니다. 예술적 재능이나 표현력이 뛰어납니다.',
+      '상관(傷官)': '비판적이고 개혁적입니다. 기술이나 전문 분야에 재능이 있습니다.',
+      '편재(偏財)': '사교적이고 돈 벌 기회가 많습니다. 재물의 유동이 큽니다.',
+      '정재(正財)': '성실하고 근면합니다. 안정적인 재물 운이 있습니다.',
+      '편관(偏官)': '강인하고 결단력이 있습니다. 리더십과 추진력이 뛰어납니다.',
+      '정관(正官)': '책임감이 강하고 윤리적입니다. 사회적 지위가 중요합니다.',
+      '편인(偏印)': '직관력이 뛰어나고 학구적입니다. 독특한 사고방식을 가집니다.',
+      '정인(正印)': '학습 능력이 뛰어나고 교양이 있습니다. 어른의 도움을 받습니다.'
+    };
+    return interpretations[tenGod] || '';
+  }
+
+  // 용신 분석 (간단 버전)
+  analyzeUsefulGod(elements, yinYangBalance) {
+    const sortedElements = Object.entries(elements).sort((a, b) => b[1] - a[1]);
+    const strongest = sortedElements[0][0];
+    const weakest = sortedElements.filter(e => e[1] <= 1).map(e => e[0]);
+
+    // 가장 강한 오행을 제어하거나 가장 약한 오행을 보충하는 것이 용신
+    const relations = {
+      '목': { controls: '토', controlledBy: '금' },
+      '화': { controls: '금', controlledBy: '수' },
+      '토': { controls: '수', controlledBy: '목' },
+      '금': { controls: '목', controlledBy: '화' },
+      '수': { controls: '화', controlledBy: '토' }
+    };
+
+    const usefulGod = relations[strongest].controlledBy;
+    const interpretation = `사주에서 ${strongest} 기운이 가장 강하므로, ${usefulGod} 기운이 용신이 됩니다. ${usefulGod}의 속성을 가진 색깔, 방향, 직업 등이 도움이 됩니다.`;
+
+    return {
+      usefulGod,
+      interpretation,
+      recommendations: this.getUsefulGodRecommendations(usefulGod)
+    };
+  }
+
+  // 용신 추천사항
+  getUsefulGodRecommendations(element) {
+    const recommendations = {
+      '목': {
+        colors: ['초록색', '청록색', '연두색'],
+        directions: ['동쪽'],
+        numbers: [3, 8],
+        careers: ['교육', '출판', '임업', '섬유', '종이']
+      },
+      '화': {
+        colors: ['빨간색', '주황색', '보라색'],
+        directions: ['남쪽'],
+        numbers: [2, 7],
+        careers: ['연예', '요식업', '에너지', '전기', '화학']
+      },
+      '토': {
+        colors: ['노란색', '갈색', '베이지'],
+        directions: ['중앙', '서남', '동북'],
+        numbers: [5, 10],
+        careers: ['부동산', '건축', '농업', '도자기', '광업']
+      },
+      '금': {
+        colors: ['흰색', '금색', '은색'],
+        directions: ['서쪽'],
+        numbers: [4, 9],
+        careers: ['금융', '기계', '자동차', '금속', '보석']
+      },
+      '수': {
+        colors: ['검은색', '파란색', '남색'],
+        directions: ['북쪽'],
+        numbers: [1, 6],
+        careers: ['유통', '운송', '수산', '관광', '컨설팅']
+      }
+    };
+    return recommendations[element] || {};
+  }
+
+  // 상세 성격 분석
+  analyzePersonality(dayMaster, tenGods, yinYangBalance) {
+    const element = dayMaster.element;
+    const yinYang = dayMaster.yinYang;
+
+    const basePersonality = this.getElementPersonality(element);
+    const yinYangModifier = yinYang === '양' ? '적극적이고 외향적인' : '차분하고 내성적인';
+
+    return {
+      base: basePersonality,
+      modifier: yinYangModifier,
+      summary: `${yinYangModifier} ${element} 기질을 가지고 있습니다. ${basePersonality}`
+    };
+  }
+
+  // 오행별 성격
+  getElementPersonality(element) {
+    const personalities = {
+      '목': '성장과 발전을 추구하며 인자하고 부드러운 성품을 가지고 있습니다. 창의적이고 융통성이 있으나 때로는 우유부단할 수 있습니다.',
+      '화': '열정적이고 밝으며 사교성이 뛰어납니다. 예의 바르고 문화적 소양이 있으나 감정 기복이 있을 수 있습니다.',
+      '토': '안정적이고 신뢰할 수 있으며 포용력이 있습니다. 성실하고 근면하나 변화에 소극적일 수 있습니다.',
+      '금': '정의롭고 결단력이 있으며 원칙적입니다. 강인하고 책임감이 강하나 융통성이 부족할 수 있습니다.',
+      '수': '지혜롭고 유연하며 적응력이 뛰어납니다. 통찰력이 있고 학습 능력이 우수하나 우유부단할 수 있습니다.'
+    };
+    return personalities[element] || '';
+  }
+
+  // 사주 전체 분석 (확장)
   getFullAnalysis(birthInfo) {
     const saju = this.calculateSaju(birthInfo);
     const elements = this.analyzeElements(saju);
     const fortune = this.getTodayFortune(saju);
+    const yinYangAnalysis = this.analyzeYinYang(saju);
+    const tenGodsAnalysis = this.analyzeTenGods(saju);
 
     // 강한 오행과 약한 오행
     const sortedElements = Object.entries(elements).sort((a, b) => b[1] - a[1]);
     const strongElement = sortedElements[0];
     const weakElements = sortedElements.filter(e => e[1] <= 1);
+
+    const dayMaster = {
+      stem: saju.day.stem,
+      branch: saju.day.branch,
+      element: this.elements[saju.day.stem],
+      yinYang: this.yinYang[saju.day.stem]
+    };
+
+    const usefulGod = this.analyzeUsefulGod(elements, yinYangAnalysis);
+    const personality = this.analyzePersonality(dayMaster, tenGodsAnalysis, yinYangAnalysis);
 
     return {
       saju: saju,
@@ -241,12 +447,11 @@ class SajuCalculator {
       strongElement: strongElement,
       weakElements: weakElements,
       todayFortune: fortune,
-      dayMaster: {
-        stem: saju.day.stem,
-        branch: saju.day.branch,
-        element: this.elements[saju.day.stem],
-        yinYang: this.yinYang[saju.day.stem]
-      }
+      dayMaster: dayMaster,
+      yinYangAnalysis: yinYangAnalysis,
+      tenGodsAnalysis: tenGodsAnalysis,
+      usefulGod: usefulGod,
+      personality: personality
     };
   }
 }

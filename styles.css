@@ -284,6 +284,90 @@ header h1 {
     font-weight: 600;
 }
 
+/* 음양 분석 */
+.yinyang-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.interpretation {
+    background: #e8f4f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    line-height: 1.6;
+    color: #0c5460;
+}
+
+/* 성격 분석 */
+.personality-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 십성 분석 */
+.tengods-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tengod-item {
+    margin-bottom: 15px;
+}
+
+.tengod-name {
+    color: #764ba2;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.tengod-interpretation {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 5px;
+}
+
+/* 용신 분석 */
+.usefulgod-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recommendations {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.recommendations h4 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.recommendations p {
+    margin: 10px 0;
+    color: #856404;
+}
+
+.recommendations span {
+    color: #d39e00;
+    font-weight: 600;
+}
+
 /* 오늘의 운세 */
 .today-fortune {
     background: white;
