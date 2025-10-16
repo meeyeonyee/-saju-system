@@ -8,38 +8,102 @@
 
 body {
     font-family: 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     padding: 20px;
     color: #333;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 신비로운 별 효과 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent),
+        radial-gradient(1px 1px at 15% 60%, white, transparent);
+    background-size: 200% 200%;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px, 200px 150px, 90px 200px;
+    animation: twinkle 3s ease-in-out infinite;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.7; }
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(138, 43, 226, 0.3),
+                inset 0 0 20px rgba(138, 43, 226, 0.1);
     overflow: hidden;
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(138, 43, 226, 0.2);
 }
 
 /* 헤더 */
 header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     color: white;
     padding: 40px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.2) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 header h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 20px rgba(138, 43, 226, 0.8),
+                 0 0 40px rgba(138, 43, 226, 0.5),
+                 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    letter-spacing: 3px;
 }
 
 .subtitle {
     font-size: 1.1rem;
-    opacity: 0.9;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* 메인 콘텐츠 */
@@ -49,16 +113,19 @@ header h1 {
 
 /* 입력 섹션 */
 .input-section {
-    background: #f8f9fa;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
     padding: 30px;
     border-radius: 15px;
     margin-bottom: 30px;
+    border: 1px solid rgba(138, 43, 226, 0.15);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.1);
 }
 
 .input-section h2 {
-    color: #667eea;
+    color: #5a2d82;
     margin-bottom: 25px;
     font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
 }
 
 .form-group {
@@ -92,20 +159,46 @@ header h1 {
 .submit-btn {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #5a2d82 0%, #8e44ad 50%, #5a2d82 100%);
+    background-size: 200% 200%;
     color: white;
     border: none;
     border-radius: 10px;
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s;
     margin-top: 10px;
+    box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4),
+                0 0 30px rgba(138, 43, 226, 0.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.submit-btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 10px 30px rgba(138, 43, 226, 0.6),
+                0 0 50px rgba(138, 43, 226, 0.4);
+    background-position: 100% 50%;
 }
 
 .submit-btn:active {
@@ -129,25 +222,41 @@ header h1 {
 }
 
 .results-section h2 {
-    color: #667eea;
+    color: #5a2d82;
     margin-bottom: 30px;
     font-size: 2rem;
     text-align: center;
+    text-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+    position: relative;
+}
+
+.results-section h2::after {
+    content: '✨';
+    margin-left: 15px;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
 }
 
 .results-section h3 {
-    color: #764ba2;
+    color: #5a2d82;
     margin-bottom: 15px;
     font-size: 1.5rem;
+    text-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
 }
 
 /* 사주팔자 표 */
 .saju-table {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .saju-table table {
@@ -164,9 +273,10 @@ header h1 {
 }
 
 .saju-table th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #5a2d82 50%, #1a1a2e 100%);
     color: white;
     font-weight: 600;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.8);
 }
 
 .pillar-cell {
@@ -189,20 +299,24 @@ header h1 {
 
 /* 일간 정보 */
 .day-master-info {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 /* 일주 분석 */
 .daypillar-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .daypillar-title {
@@ -261,11 +375,13 @@ header h1 {
 
 /* 오행 분석 */
 .elements-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .elements-chart {
@@ -327,11 +443,13 @@ header h1 {
 
 /* 음양 분석 */
 .yinyang-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .interpretation {
@@ -345,20 +463,24 @@ header h1 {
 
 /* 성격 분석 */
 .personality-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 /* 십성 분석 */
 .tengods-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .tengod-item {
@@ -379,11 +501,13 @@ header h1 {
 
 /* 용신 분석 */
 .usefulgod-analysis {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .recommendations {
@@ -411,44 +535,74 @@ header h1 {
 
 /* 오늘의 운세 */
 .today-fortune {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2),
+                0 0 30px rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.15);
 }
 
 .fortune-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #5a2d82 50%, #1a1a2e 100%);
     color: white;
     padding: 25px;
     border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4),
+                inset 0 0 30px rgba(138, 43, 226, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.fortune-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 6s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .fortune-card p {
     margin: 12px 0;
     font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .fortune-card strong {
     opacity: 0.9;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
 }
 
 .fortune-summary {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
     margin-top: 20px;
     font-size: 1.15rem;
     line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 20px rgba(138, 43, 226, 0.3);
 }
 
 /* 푸터 */
 footer {
-    background: #f8f9fa;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     padding: 20px;
     text-align: center;
-    color: #666;
-    border-top: 1px solid #e0e0e0;
+    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px solid rgba(138, 43, 226, 0.3);
+    text-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
 }
 
 /* 반응형 디자인 */
