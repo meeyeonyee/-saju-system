@@ -71,12 +71,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 일주 분석 표시
         if (dayPillarAnalysis) {
+            console.log('일주 분석 데이터:', dayPillarAnalysis);
             document.getElementById('dayPillarTitle').textContent = dayPillarAnalysis.title;
             document.getElementById('dayPillarGanJi').textContent = dayPillarAnalysis.ganJi;
             document.getElementById('dayPillarDescription').textContent = dayPillarAnalysis.description;
             document.getElementById('dayPillarStrength').textContent = dayPillarAnalysis.strength;
             document.getElementById('dayPillarWeakness').textContent = dayPillarAnalysis.weakness;
             document.getElementById('dayPillarRecommendation').textContent = dayPillarAnalysis.recommendation;
+        } else {
+            console.error('일주 분석 데이터가 없습니다!');
         }
 
         // 오행 차트
