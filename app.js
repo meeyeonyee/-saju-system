@@ -233,6 +233,6 @@ function getElementDescription(element) {
 }
 
 // 콘솔에 정보 출력 (디버깅용)
-console.log('사주팔자 운세 시스템이 로드되었습니다.');
+console.log('오늘의 사주가 로드되었습니다.');
 console.log('Version: 1.0.0');
 console.log('Author: Claude Code');
