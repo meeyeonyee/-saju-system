@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 결과 표시
-    function displayResults(analysis) {
+    async function displayResults(analysis) {
         const { saju, elements, strongElement, weakElements, todayFortune, dayMaster } = analysis;
 
         // 사주팔자 표시
@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('todayElement').textContent = todayFortune.element;
         document.getElementById('todayRelation').textContent = todayFortune.relation;
         document.getElementById('fortuneSummary').textContent = todayFortune.analysis;
+
+        // Supabase에 결과 저장 (선택사항)
+        if (typeof saveSajuReading === 'function') {
+            await saveSajuReading(saju.birthInfo, analysis);
+        }
     }
 
     // 오행 차트 표시

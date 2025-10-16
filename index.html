@@ -154,6 +154,16 @@
         </footer>
     </div>
 
+    <!-- Supabase JavaScript Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- 환경 변수 설정 (Vercel에서 자동 주입) -->
+    <script>
+        window.SUPABASE_URL = '%%SUPABASE_URL%%';
+        window.SUPABASE_ANON_KEY = '%%SUPABASE_ANON_KEY%%';
+    </script>
+
+    <script src="supabase-client.js"></script>
     <script src="saju-calculator.js"></script>
     <script src="app.js"></script>
 </body>
