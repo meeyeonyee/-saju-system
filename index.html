@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사주팔자 운세 시스템</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔮 사주팔자 운세 시스템</h1>
+            <p class="subtitle">당신의 사주를 분석하고 오늘의 운세를 확인하세요</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 입력 폼 -->
+            <section class="input-section">
+                <h2>생년월일 정보 입력</h2>
+                <form id="sajuForm">
+                    <div class="form-group">
+                        <label for="year">출생 연도</label>
+                        <input type="number" id="year" name="year" placeholder="예: 1990" required min="1900" max="2100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="month">출생 월</label>
+                        <select id="month" name="month" required>
+                            <option value="">선택하세요</option>
+                            <option value="1">1월</option>
+                            <option value="2">2월</option>
+                            <option value="3">3월</option>
+                            <option value="4">4월</option>
+                            <option value="5">5월</option>
+                            <option value="6">6월</option>
+                            <option value="7">7월</option>
+                            <option value="8">8월</option>
+                            <option value="9">9월</option>
+                            <option value="10">10월</option>
+                            <option value="11">11월</option>
+                            <option value="12">12월</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="day">출생 일</label>
+                        <input type="number" id="day" name="day" placeholder="예: 15" required min="1" max="31">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hour">출생 시간</label>
+                        <select id="hour" name="hour" required>
+                            <option value="">선택하세요</option>
+                            <option value="0">자시 (23:30-01:29)</option>
+                            <option value="1">축시 (01:30-03:29)</option>
+                            <option value="2">인시 (03:30-05:29)</option>
+                            <option value="3">묘시 (05:30-07:29)</option>
+                            <option value="4">진시 (07:30-09:29)</option>
+                            <option value="5">사시 (09:30-11:29)</option>
+                            <option value="6">오시 (11:30-13:29)</option>
+                            <option value="7">미시 (13:30-15:29)</option>
+                            <option value="8">신시 (15:30-17:29)</option>
+                            <option value="9">유시 (17:30-19:29)</option>
+                            <option value="10">술시 (19:30-21:29)</option>
+                            <option value="11">해시 (21:30-23:29)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">성별</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">선택하세요</option>
+                            <option value="남">남자</option>
+                            <option value="여">여자</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">사주 분석하기</button>
+                </form>
+            </section>
+
+            <!-- 결과 표시 -->
+            <section class="results-section" id="results" style="display: none;">
+                <h2>사주팔자 분석 결과</h2>
+
+                <!-- 사주팔자 표 -->
+                <div class="saju-table">
+                    <h3>사주팔자</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>시주 (時柱)</th>
+                                <th>일주 (日柱)</th>
+                                <th>월주 (月柱)</th>
+                                <th>년주 (年柱)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>천간</strong></td>
+                                <td id="hourStem" class="pillar-cell"></td>
+                                <td id="dayStem" class="pillar-cell day-master"></td>
+                                <td id="monthStem" class="pillar-cell"></td>
+                                <td id="yearStem" class="pillar-cell"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>지지</strong></td>
+                                <td id="hourBranch" class="pillar-cell"></td>
+                                <td id="dayBranch" class="pillar-cell day-master"></td>
+                                <td id="monthBranch" class="pillar-cell"></td>
+                                <td id="yearBranch" class="pillar-cell"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="note">※ 일주 천간(일간)이 나를 나타냅니다</p>
+                </div>
+
+                <!-- 일간 정보 -->
+                <div class="day-master-info">
+                    <h3>일간 (日干) 정보</h3>
+                    <div class="info-card">
+                        <p><strong>일간:</strong> <span id="dayMasterStem"></span></p>
+                        <p><strong>오행:</strong> <span id="dayMasterElement"></span></p>
+                        <p><strong>음양:</strong> <span id="dayMasterYinYang"></span></p>
+                    </div>
+                </div>
+
+                <!-- 오행 분석 -->
+                <div class="elements-analysis">
+                    <h3>오행 (五行) 분석</h3>
+                    <div class="elements-chart" id="elementsChart"></div>
+                    <div class="elements-summary">
+                        <p><strong>강한 오행:</strong> <span id="strongElement"></span></p>
+                        <p><strong>약한 오행:</strong> <span id="weakElements"></span></p>
+                    </div>
+                </div>
+
+                <!-- 오늘의 운세 -->
+                <div class="today-fortune">
+                    <h3>오늘의 운세 (2025년 10월 16일)</h3>
+                    <div class="fortune-card">
+                        <p><strong>오늘의 일진:</strong> <span id="todayGanJi"></span></p>
+                        <p><strong>오행:</strong> <span id="todayElement"></span></p>
+                        <p><strong>나와의 관계:</strong> <span id="todayRelation"></span></p>
+                        <div class="fortune-summary" id="fortuneSummary"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>© 2025 사주팔자 운세 시스템 | 참고용으로만 사용하세요</p>
+        </footer>
+    </div>
+
+    <script src="saju-calculator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
