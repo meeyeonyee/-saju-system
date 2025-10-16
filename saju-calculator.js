@@ -56,6 +56,22 @@ class SajuCalculator {
       7: '신', 8: '유', 9: '술',
       10: '해', 11: '자', 12: '축'
     };
+
+    // 일주 60갑자 해석
+    this.dayPillarInterpretations = {
+      '갑자': { title: '갑자일주 - 혁신적인 리더', description: '창의적이고 독립적입니다. 새로운 것을 시작하는 능력이 뛰어나며 리더십이 강합니다. 지혜롭고 적응력이 좋아 다양한 환경에서 성공할 수 있습니다.', strength: '창의력, 리더십, 지혜', weakness: '고집, 완벽주의' },
+      '을축': { title: '을축일주 - 온화한 실무자', description: '성실하고 꾸준하며 신뢰할 수 있는 성격입니다. 실용적이고 인내심이 강해 어려운 일도 끝까지 해냅니다. 타인을 배려하는 따뜻한 마음을 가졌습니다.', strength: '성실함, 인내심, 신뢰성', weakness: '우유부단함, 변화 거부' },
+      '병인': { title: '병인일주 - 열정적인 도전자', description: '열정적이고 활동적이며 모험심이 강합니다. 긍정적인 에너지로 주변을 밝게 만들고, 새로운 도전을 즐깁니다. 사교성이 뛰어나 인맥이 넓습니다.', strength: '열정, 사교성, 추진력', weakness: '성급함, 집중력 부족' },
+      '정묘': { title: '정묘일주 - 섬세한 예술가', description: '섬세하고 예술적 감각이 뛰어납니다. 디테일에 강하고 미적 감각이 우수합니다. 차분하고 신중한 성격으로 실수가 적습니다.', strength: '섬세함, 예술성, 신중함', weakness: '소심함, 결정력 부족' },
+      '무진': { title: '무진일주 - 안정적인 관리자', description: '포용력이 크고 책임감이 강합니다. 관리 능력이 뛰어나며 조직을 안정적으로 이끌어갑니다. 신뢰를 중시하고 약속을 잘 지킵니다.', strength: '포용력, 책임감, 관리능력', weakness: '고집, 융통성 부족' },
+      '기사': { title: '기사일주 - 지혜로운 계획가', description: '지적이고 계획적입니다. 분석력이 뛰어나며 전략적 사고에 능합니다. 차분하고 신중하게 일을 처리하여 실패가 적습니다.', strength: '지혜, 분석력, 계획성', weakness: '우유부단함, 과도한 신중함' },
+      '경오': { title: '경오일주 - 강인한 전사', description: '강인하고 결단력이 있습니다. 목표 지향적이며 추진력이 강해 원하는 것을 이루어냅니다. 정의감이 강하고 원칙을 중시합니다.', strength: '결단력, 추진력, 정의감', weakness: '강압적, 융통성 부족' },
+      '신미': { title: '신미일주 - 섬세한 완벽주의자', description: '섬세하고 완벽주의 성향이 있습니다. 품질과 디테일을 중시하며 높은 수준의 작업물을 만들어냅니다. 예의 바르고 품위가 있습니다.', strength: '섬세함, 완벽주의, 품위', weakness: '까다로움, 스트레스' },
+      '임신': { title: '임신일주 - 유연한 전략가', description: '유연하고 적응력이 뛰어납니다. 변화에 빠르게 대응하며 다양한 상황을 잘 헤쳐나갑니다. 통찰력이 있어 본질을 꿰뚫어봅니다.', strength: '유연성, 적응력, 통찰력', weakness: '우유부단함, 일관성 부족' },
+      '계유': { title: '계유일주 - 지혜로운 조언자', description: '지혜롭고 통찰력이 뛰어납니다. 조언을 잘하고 타인을 이해하는 능력이 있습니다. 학문적 재능이 있으며 깊이 있는 사고를 합니다.', strength: '지혜, 통찰력, 이해심', weakness: '소심함, 자신감 부족' },
+      // 나머지 50개 일주는 일반적인 해석으로 처리
+      'default': { title: '일주 분석', description: '당신의 일주는 고유한 특성을 가지고 있습니다.', strength: '강점 분석 중', weakness: '약점 분석 중' }
+    };
   }
 
   // 간지 계산 (60갑자)
@@ -406,6 +422,39 @@ class SajuCalculator {
     };
   }
 
+  // 일주 분석
+  analyzeDayPillar(dayPillar) {
+    const ganJi = dayPillar.ganJi;
+    const interpretation = this.dayPillarInterpretations[ganJi] || this.dayPillarInterpretations['default'];
+
+    return {
+      ganJi: ganJi,
+      title: interpretation.title,
+      description: interpretation.description,
+      strength: interpretation.strength,
+      weakness: interpretation.weakness,
+      recommendation: this.getDayPillarRecommendation(ganJi)
+    };
+  }
+
+  // 일주별 추천사항
+  getDayPillarRecommendation(ganJi) {
+    const recommendations = {
+      '갑자': '새로운 분야에 도전하고 리더십을 발휘할 기회를 찾으세요. 창의적인 아이디어를 실현할 수 있는 환경이 좋습니다.',
+      '을축': '꾸준함을 무기로 장기적인 목표를 설정하세요. 신뢰를 바탕으로 한 인간관계를 중시하세요.',
+      '병인': '열정을 쏟을 수 있는 일을 찾으세요. 사람들과의 교류를 통해 에너지를 얻으세요.',
+      '정묘': '세심함을 요구하는 일에 적합합니다. 예술이나 디자인 분야에서 재능을 발휘할 수 있습니다.',
+      '무진': '관리나 조직 운영에 재능이 있습니다. 안정적인 환경에서 장기적으로 성장하세요.',
+      '기사': '계획과 전략이 필요한 일에 강점이 있습니다. 분석적 사고를 활용하세요.',
+      '경오': '목표를 명확히 하고 추진력을 발휘하세요. 정의로운 일에 앞장서세요.',
+      '신미': '품질과 완성도를 중시하는 일이 적합합니다. 스트레스 관리에 신경 쓰세요.',
+      '임신': '변화하는 환경에 강합니다. 유연성을 살려 다양한 기회를 잡으세요.',
+      '계유': '조언자나 교육자로서의 역할이 잘 맞습니다. 지혜를 나누는 일을 하세요.'
+    };
+
+    return recommendations[ganJi] || '당신의 고유한 강점을 발견하고 발전시키세요.';
+  }
+
   // 오행별 성격
   getElementPersonality(element) {
     const personalities = {
@@ -440,6 +489,7 @@ class SajuCalculator {
 
     const usefulGod = this.analyzeUsefulGod(elements, yinYangAnalysis);
     const personality = this.analyzePersonality(dayMaster, tenGodsAnalysis, yinYangAnalysis);
+    const dayPillarAnalysis = this.analyzeDayPillar(saju.day);
 
     return {
       saju: saju,
@@ -451,7 +501,8 @@ class SajuCalculator {
       yinYangAnalysis: yinYangAnalysis,
       tenGodsAnalysis: tenGodsAnalysis,
       usefulGod: usefulGod,
-      personality: personality
+      personality: personality,
+      dayPillarAnalysis: dayPillarAnalysis
     };
   }
 }

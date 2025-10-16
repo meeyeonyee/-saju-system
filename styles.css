@@ -196,6 +196,47 @@ header h1 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* 일주 분석 */
+.daypillar-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.daypillar-title {
+    color: #764ba2;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.daypillar-ganji {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.daypillar-traits {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.daypillar-traits p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.daypillar-traits strong {
+    color: #555;
+}
+
+.daypillar-traits span {
+    color: #667eea;
+    font-weight: 600;
+}
+
 .info-card {
     background: #f8f9fa;
     padding: 20px;

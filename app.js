@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 결과 표시
     async function displayResults(analysis) {
         const { saju, elements, strongElement, weakElements, todayFortune, dayMaster,
-                yinYangAnalysis, tenGodsAnalysis, usefulGod, personality } = analysis;
+                yinYangAnalysis, tenGodsAnalysis, usefulGod, personality, dayPillarAnalysis } = analysis;
 
         // 사주팔자 표시
         document.getElementById('yearStem').textContent = saju.year.stem;
@@ -68,6 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('dayMasterStem').textContent = dayMaster.stem;
         document.getElementById('dayMasterElement').textContent = dayMaster.element;
         document.getElementById('dayMasterYinYang').textContent = dayMaster.yinYang;
+
+        // 일주 분석 표시
+        if (dayPillarAnalysis) {
+            document.getElementById('dayPillarTitle').textContent = dayPillarAnalysis.title;
+            document.getElementById('dayPillarGanJi').textContent = dayPillarAnalysis.ganJi;
+            document.getElementById('dayPillarDescription').textContent = dayPillarAnalysis.description;
+            document.getElementById('dayPillarStrength').textContent = dayPillarAnalysis.strength;
+            document.getElementById('dayPillarWeakness').textContent = dayPillarAnalysis.weakness;
+            document.getElementById('dayPillarRecommendation').textContent = dayPillarAnalysis.recommendation;
+        }
 
         // 오행 차트
         displayElementsChart(elements);
